@@ -33,7 +33,7 @@ public class MovementController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		rb = GetComponent<Rigidbody>();
+		rb = this.GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
