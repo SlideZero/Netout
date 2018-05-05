@@ -300,11 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6929cae329ec2134c8e487d8665be2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 8
-  height: 5
-  damping: 5
-  smoothRotation: 1
-  rotationDamping: 10
 --- !u!114 &858380134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 5
   height: 3
-  damping: 5
+  damping: 10
   smoothRotation: 1
   rotationDamping: 10
 --- !u!1001 &1108326027
