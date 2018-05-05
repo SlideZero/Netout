@@ -28,6 +28,7 @@ public class MovementController : MonoBehaviour {
 
 	//SufaceRotattion variables
 	private Quaternion nextQuaternion;
+	private RaycastHit hit;
 
 
 	// Use this for initialization
@@ -45,11 +46,7 @@ public class MovementController : MonoBehaviour {
 
 		SurfaceRotation();
 
-		if(hr != 0){
-
-			Rotation(hr);
-
-		}
+		
 
 		IsGrounded();
 
@@ -78,7 +75,7 @@ public class MovementController : MonoBehaviour {
 
 		//Debug.Log(yMonentum);
 		//rb.AddForce(-Vector3.up * 9.81f, ForceMode.Acceleration);
-		Debug.Log(transform.InverseTransformDirection(rb.velocity).magnitude);
+		//Debug.Log(transform.InverseTransformDirection(rb.velocity).magnitude);
 		Debug.DrawRay(transform.position, (transform.forward * movement.z + transform.right * movement.x) / speed * 5, Color.white);
 		
 	}
@@ -108,6 +105,11 @@ public class MovementController : MonoBehaviour {
 		if(h != 0 || v != 0){
 			Movement(h,v);
 		}
+		if(hr != 0){
+
+			Rotation(hr);
+
+		}
 
 		if(isGrounded){
 
@@ -136,12 +138,14 @@ public class MovementController : MonoBehaviour {
 		rotation.Set(0,hr,0);
 		rotation = rotation.normalized;
 
-		transform.Rotate(Vector3.up * rotation.y * rotationSpeed * Time.deltaTime);
+		//transform.Rotate(Vector3.up * rotation.y * rotationSpeed * Time.deltaTime);
+		Quaternion deltaRotation = Quaternion.Euler(Vector3.up * rotation.y * rotationSpeed * Time.deltaTime);
+		rb.MoveRotation(rb.rotation * deltaRotation);
 	}
 
 	void SurfaceRotation(){
 
-		RaycastHit hit;
+		
 		if(Physics.Raycast(transform.position, -transform.up, out hit, 2f, 1 << 8) ){
 			nextQuaternion.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 			nextQuaternion = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
@@ -155,14 +159,16 @@ public class MovementController : MonoBehaviour {
 		}
 
 		transform.rotation = Quaternion.Slerp(transform.rotation, nextQuaternion, Time.deltaTime * 10);
+		//nextQuaternion = Quaternion.Euler(nextQuaternion.eulerAngles * Time.deltaTime);
+		//rb.MoveRotation(rb.rotation * nextQuaternion);
 
 	}
 
 	void IsGrounded(){
 
-		RaycastHit hit;
-		if(Physics.SphereCast(transform.position, 0.2f, -transform.up, out hit, 1f, 1 << 8)){
-
+		RaycastHit hitSphere;
+		if(Physics.SphereCast(transform.position, 0.2f, -transform.up, out hitSphere, 1f, 1 << 8)){
+			Debug.Log(hitSphere.distance);
 			isGrounded = true;
 		}else{
 			isGrounded = false;
