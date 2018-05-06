@@ -542,6 +542,7 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 738816845}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &792629065
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,6 +575,8 @@ Transform:
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
+=======
+>>>>>>> master
 --- !u!1001 &790464365
 Prefab:
   m_ObjectHideFlags: 0
@@ -690,6 +693,9 @@ GameObject:
   m_PrefabParentObject: {fileID: 1088673934213700, guid: 170c3d69b13089143921ef85e99bc2eb,
     type: 2}
   m_PrefabInternal: {fileID: 790464365}
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 --- !u!1 &801233723
 GameObject:
