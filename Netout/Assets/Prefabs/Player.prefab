@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114481323678111954}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -330,9 +330,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   namePrefab: {fileID: 114707280307175206, guid: 3a535bc5891e9b645b6cbe642c5f675d,
     type: 2}
-  nameLabel: {fileID: 0}
+  nameLabel: {fileID: 114707280307175206, guid: 3a535bc5891e9b645b6cbe642c5f675d,
+    type: 2}
   namePos: {fileID: 4900016554919936}
-  pName: player
+  pName: 
 --- !u!135 &135867065317525956
 SphereCollider:
   m_ObjectHideFlags: 1

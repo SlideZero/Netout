@@ -9,6 +9,7 @@ public class SetUpLocalPlayer : NetworkBehaviour {
 	public Text namePrefab;
 	public Text nameLabel;
 	public Transform namePos;
+	GameObject _gameControler;
 
 	private string textBoxName = "";
 
@@ -34,14 +35,17 @@ public class SetUpLocalPlayer : NetworkBehaviour {
 	{
 		if(isLocalPlayer)
 		{
-			textBoxName = GUI.TextField (new Rect(25,15,100,25), textBoxName);
-			if(GUI.Button(new Rect(130,15,35,25), "Set"))
-				CmdChangeName(textBoxName);
+			/*textBoxName = GUI.TextField (new Rect(25,15,100,25), textBoxName);
+			if(GUI.Button(new Rect(130,15,35,25), "Set"))*/
+				CmdChangeName(_gameControler.GetComponent<UINicknameController>()._nicknameString);
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
+
+		_gameControler = GameObject.FindWithTag("GameController");
+
 		if(isLocalPlayer)
 		{
 			GetComponent<MovementController>().enabled = true;
