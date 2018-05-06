@@ -39,7 +39,7 @@ public class CameraFollow360 : MonoBehaviour {
 	public bool smoothRotation = true;
 	public float rotationDamping = 10.0f;
 	
-	void LateUpdate () {
+	void FixedUpdate () {
 		if(player)
 		{
 			Vector3 wantedPosition = player.TransformPoint(0, height, -distance);
