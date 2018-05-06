@@ -20,7 +20,7 @@ public class UINicknameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		_nWManager = GameObject.Find("NetworkManager");
 	}
 	
 	// Update is called once per frame
@@ -45,6 +45,7 @@ public class UINicknameController : MonoBehaviour {
 
 	IEnumerator LoadAsyncronously(string _nextScene)
 	{
+		_nWManager.GetComponent<NetworkManagerHUD>().enabled = false;
 		AsyncOperation operation = SceneManager.LoadSceneAsync(_nextScene);
 		_loadingScreen.SetActive(true);
 		while(!operation.isDone)

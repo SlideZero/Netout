@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114098455174147264}
   - component: {fileID: 114222146203508872}
   - component: {fileID: 114481323678111954}
+  - component: {fileID: 114726579680950076}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -341,10 +342,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   namePrefab: {fileID: 114707280307175206, guid: 3a535bc5891e9b645b6cbe642c5f675d,
     type: 2}
-  nameLabel: {fileID: 114707280307175206, guid: 3a535bc5891e9b645b6cbe642c5f675d,
-    type: 2}
+  nameLabel: {fileID: 0}
   namePos: {fileID: 4900016554919936}
-  pName: 
+  pName: player
+--- !u!114 &114726579680950076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218444774020800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad0345e199d271448c2a20cf8b07317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkPointArray: []
+  startPos: {x: 0, y: 0, z: 0}
+  Lap: 0
 --- !u!135 &135867065317525956
 SphereCollider:
   m_ObjectHideFlags: 1
