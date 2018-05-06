@@ -7,23 +7,23 @@ public class MovementController : MonoBehaviour {
 	private Rigidbody rb;
 
 	//Axis
-	private float h;//leftstick horizontal
-	private float v;//leftstsick vertical
 	private float hr;// rightstick horizontal
 
 
 	//movement variables
 	public float speed = 500;
-	private Vector3 movement;
-	private float yMonentum = 2f;
+	public float breikingForce = 2;
 	private bool isGrounded = false;
 	private float surfaceAtraction = 20;
 
-	//variables de bajada
-	private bool bajada = false;
+
+	//Inputs variables
+	private bool isLClickPressed = false;
+	private bool isRClickPressed = false;
 
 	//rotation variables
 	public float rotationSpeed = 50;
+	public float extraRotationSpeed = 100;
 	private Vector3 rotation;
 
 	//SufaceRotattion variables
@@ -40,57 +40,36 @@ public class MovementController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		h = Input.GetAxisRaw("Horizontal");
-		v = Input.GetAxisRaw("Vertical");
 		hr = Input.GetAxisRaw("Horizontal");
 
 		SurfaceRotation();
 
-		
+		Inputs();
 
 		IsGrounded();
 
-		//Sube la velocidad cuando esta de bajada y vulve a la normalidad poco a poco cuando ya no esta
-		if(rb.velocity.y < -1f && isGrounded){
-			bajada = true;
-		}else{
-
-			bajada = false;
-		}
-
-		if(bajada && -rb.velocity.y > yMonentum){
-
-			yMonentum = 1 + (-rb.velocity.y / 15);
-		}
-
-		if(!bajada && yMonentum > 1){
-
-			yMonentum -= Time.deltaTime / 2;
-		}
-
-		if(yMonentum < 1 || !isGrounded){
-
-			yMonentum = 1;
-		}
-
-		//Debug.Log(yMonentum);
-		//rb.AddForce(-Vector3.up * 9.81f, ForceMode.Acceleration);
-		//Debug.Log(transform.InverseTransformDirection(rb.velocity).magnitude);
-		Debug.DrawRay(transform.position, (transform.forward * movement.z + transform.right * movement.x) / speed * 5, Color.white);
+		Debug.Log(transform.InverseTransformDirection(rb.velocity).magnitude);
+		//Debug.DrawRay(transform.position, (transform.forward * movement.z + transform.right * movement.x) / speed * 5, Color.white);
 		
 	}
 	
+	void Inputs()
+	{
+		if(Input.GetMouseButtonDown(0))
+			isLClickPressed = true;
+		else if (Input.GetMouseButtonUp(0))
+			isLClickPressed = false;
 
-	void LateUpdate(){
+		if(Input.GetMouseButtonDown(1))
+			isRClickPressed = true;
+		else if (Input.GetMouseButtonUp(1))
+			isRClickPressed = false;
 
-		
 	}
 
 	void FixedUpdate(){
 
 		surfaceAtraction = 10 + transform.InverseTransformDirection(rb.velocity).magnitude;
-
-		//rb.velocity = Vector3.ClampMagnitude(rb.velocity, 30);
 
 		if(!isGrounded){
 
@@ -102,9 +81,9 @@ public class MovementController : MonoBehaviour {
 			rb.AddForce(-Vector3.up * 6f, ForceMode.Acceleration);
 		}
 
-		if(h != 0 || v != 0){
-			Movement(h,v);
-		}
+		Acceleration();
+		Breacking();
+
 		if(hr != 0){
 
 			Rotation(hr);
@@ -119,18 +98,18 @@ public class MovementController : MonoBehaviour {
 		
 	}
 
+	void Acceleration()
+	{
+		if(isLClickPressed)
+			rb.AddForce(transform.forward * speed, ForceMode.Force);
+	}
 
-	void Movement(float h, float v){
-
-		movement.Set(h,0,v);
-		
-		movement = movement.normalized * speed *yMonentum;
-
-		//rb.velocity =  transform.rotation * new Vector3(movement.x, 0, movement.z);
-		
-		rb.AddForce(transform.forward * movement.z, ForceMode.Force);
-		rb.AddForce(transform.right * movement.x, ForceMode.Force);
-			
+	void Breacking()
+	{
+		if(isRClickPressed)
+			rb.drag = breikingForce;
+		else
+			rb.drag = 0;
 	}
 
 	void Rotation(float hr){
@@ -138,8 +117,15 @@ public class MovementController : MonoBehaviour {
 		rotation.Set(0,hr,0);
 		rotation = rotation.normalized;
 
+		float nextRotationSpeed = 0;
+
+		if(isRClickPressed)
+			nextRotationSpeed = extraRotationSpeed;
+		else
+			nextRotationSpeed = rotationSpeed;
+
 		//transform.Rotate(Vector3.up * rotation.y * rotationSpeed * Time.deltaTime);
-		Quaternion deltaRotation = Quaternion.Euler(Vector3.up * rotation.y * rotationSpeed * Time.deltaTime);
+		Quaternion deltaRotation = Quaternion.Euler(Vector3.up * rotation.y * nextRotationSpeed * Time.deltaTime);
 		rb.MoveRotation(rb.rotation * deltaRotation);
 	}
 
@@ -168,7 +154,6 @@ public class MovementController : MonoBehaviour {
 
 		RaycastHit hitSphere;
 		if(Physics.SphereCast(transform.position, 0.2f, -transform.up, out hitSphere, 1f, 1 << 8)){
-			Debug.Log(hitSphere.distance);
 			isGrounded = true;
 		}else{
 			isGrounded = false;

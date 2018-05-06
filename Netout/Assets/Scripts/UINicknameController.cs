@@ -19,7 +19,7 @@ public class UINicknameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(NetworkServer.active && NetworkClient.active)
+		if(NetworkServer.active || NetworkClient.active)
 		{
 			_camera.GetComponent<IntroductionCamera>().enabled = false;
 			_camera.GetComponent<CameraFollow360>().enabled = true;
