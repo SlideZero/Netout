@@ -48,7 +48,7 @@ public class MovementController : MonoBehaviour {
 
 		IsGrounded();
 
-		Debug.Log(transform.InverseTransformDirection(rb.velocity).magnitude);
+		//Debug.Log(transform.InverseTransformDirection(rb.velocity).magnitude);
 		//Debug.DrawRay(transform.position, (transform.forward * movement.z + transform.right * movement.x) / speed * 5, Color.white);
 		
 	}

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MainCanvas
   - CheckpointList
+  - WinPanel
   layers:
   - Default
   - TransparentFX
