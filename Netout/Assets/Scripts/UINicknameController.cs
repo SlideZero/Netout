@@ -17,10 +17,13 @@ public class UINicknameController : MonoBehaviour {
 	public Slider _slider;
 	public Text _progressText;
 	private bool inGame = false;
+	[SerializeField] private AudioClip _song;
+	private AudioSource _audio;
 
 	// Use this for initialization
 	void Start () {
 		_nWManager = GameObject.Find("NetworkManager");
+		_audio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -41,6 +44,9 @@ public class UINicknameController : MonoBehaviour {
 		_nWManager.GetComponent<NetworkManagerHUD>().enabled = true;
 		_nicknameString = _nickname.text;
 		_nicknameLayer.SetActive(false);
+		_audio.Stop();
+		_audio.clip = _song;
+		_audio.Play();
 	}
 
 	IEnumerator LoadAsyncronously(string _nextScene)

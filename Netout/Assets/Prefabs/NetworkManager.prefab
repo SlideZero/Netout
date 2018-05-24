@@ -69,14 +69,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
-  m_ServerBindAddress: 
+  m_ServerBindAddress: 10.22.33.88
   m_NetworkAddress: localhost
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1218444774020800, guid: 1c1e2738efbf4024fa4bcff3058c1ded,
+  m_PlayerPrefab: {fileID: 1273231776449338, guid: 1c1e2738efbf4024fa4bcff3058c1ded,
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1

@@ -12,18 +12,58 @@ public class SetUpLocalPlayer : NetworkBehaviour {
 	public Text lapLabel;
 	public Transform namePos;
 	GameObject _gameControler;
+	[SerializeField] private GameObject _playerPrefs;
 
 	private string textBoxName = "";
 
 	[SyncVar (hook = "OnChangeName")]
 	public string pName = "player";
 	
+	[SyncVar (hook = "OnChangeColor")]
+	public string pColor = "#ffffff";
+	
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		Invoke("UpdateStates", 0.5f);
+	}
+
+	void UpdateStates()
+	{
+		OnChangeName(pName);
+		OnChangeColor(pColor);
+	}
 
 	void OnChangeName(string n)	//regresa al cliente
 	{
 		pName = n;
 		nameLabel.text = pName;
 		//nameLabel.transform.GetChild(1).GetComponent<Text>().text = pName;
+	}
+
+	void OnChangeColor(string n)	//regresa al cliente el color
+	{
+		pColor = n;
+		Renderer[] rends = GetComponentsInChildren<Renderer>();
+		foreach(Renderer r in rends)
+		{
+			if(r.gameObject.name == "BODY")
+			{
+				r.material.SetColor("_Color", ColorFromHex(pColor));
+				break;
+			}
+		}
+	}
+
+	[Command]	//peticion al servidor para el color
+	public void CmdChangeColor(string newColor)	//string newColor
+	{
+		pColor = newColor;
+		Renderer[] rends = GetComponentsInChildren<Renderer>();
+		foreach(Renderer r in rends)
+		{
+			r.material.SetColor("_Color", ColorFromHex(pColor));
+		}
 	}
 
 	[SyncVar (hook = "OnChangeLap")]
@@ -60,7 +100,26 @@ public class SetUpLocalPlayer : NetworkBehaviour {
 			if(GUI.Button(new Rect(130,15,35,25), "Set"))*/
 				CmdChangeName(_gameControler.GetComponent<UINicknameController>()._nicknameString);
 				CmdChangeLap(pLap);
+				CmdChangeColor(_playerPrefs.GetComponent<PlayerPrefsController>().colorSelected);
 		}
+	}
+
+	private Color ColorFromHex(string hex)
+	{
+		hex = hex.Replace("0x","");
+		hex = hex.Replace("#","");
+
+		byte a = 255;
+		byte r = byte.Parse(hex.Substring(0,2),System.Globalization.NumberStyles.HexNumber);
+		byte g = byte.Parse(hex.Substring(2,2),System.Globalization.NumberStyles.HexNumber);
+		byte b = byte.Parse(hex.Substring(4,2),System.Globalization.NumberStyles.HexNumber);
+
+		if(hex.Length == 8)
+		{
+			a = byte.Parse(hex.Substring(6,2),System.Globalization.NumberStyles.HexNumber);
+		}
+
+		return new Color32(r,g,b,a);
 	}
 
 	// Use this for initialization
@@ -70,6 +129,7 @@ public class SetUpLocalPlayer : NetworkBehaviour {
 
 		if(isLocalPlayer)
 		{
+			_playerPrefs = GameObject.Find("PlayerPrefsController");
 			GetComponent<MovementController>().enabled = true;
 			CameraFollow360.player = this.gameObject.transform;
 		}
