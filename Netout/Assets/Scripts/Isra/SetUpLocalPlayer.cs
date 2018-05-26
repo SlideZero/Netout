@@ -47,11 +47,7 @@ public class SetUpLocalPlayer : NetworkBehaviour {
 		Renderer[] rends = GetComponentsInChildren<Renderer>();
 		foreach(Renderer r in rends)
 		{
-			if(r.gameObject.name == "BODY")
-			{
-				r.material.SetColor("_Color", ColorFromHex(pColor));
-				break;
-			}
+			r.material.SetColor("_Color", ColorFromHex(pColor));
 		}
 	}
 
