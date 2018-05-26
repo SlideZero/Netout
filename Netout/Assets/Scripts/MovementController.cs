@@ -35,6 +35,14 @@ public class MovementController : MonoBehaviour {
 	public AudioSource FrenadoAudio;
 	public AudioSource AcelerationIntro;
 
+	//Obstacles
+	private bool inObstacle = false;
+	private int type = 0;
+	public Material type0;
+	public Material type1;
+	public Material type2;
+	public Renderer TypeRender;
+
 
 	// Use this for initialization
 	void Start () {
@@ -50,6 +58,7 @@ public class MovementController : MonoBehaviour {
 		SurfaceRotation();
 
 		Inputs();
+		ChangeColorType();
 
 		IsGrounded();
 
@@ -77,6 +86,35 @@ public class MovementController : MonoBehaviour {
 		else if (Input.GetMouseButtonUp(1))
 			isRClickPressed = false;
 
+		//Teclas para los tipos
+		if(Input.GetKeyDown(KeyCode.Q))
+		{
+			type = 0;
+		}else if(Input.GetKeyDown(KeyCode.W))
+		{
+			type = 1;
+		}else if(Input.GetKeyDown(KeyCode.E))
+		{
+			type = 2;
+		}
+		Debug.Log(type);
+
+	}
+
+	void ChangeColorType()
+	{
+		switch(type)
+		{
+			case 0:
+				TypeRender.material = type0;
+				break;
+			case 1:
+				TypeRender.material = type1;
+				break;
+			case 2:
+				TypeRender.material = type2;
+				break;
+		}
 	}
 
 	void FixedUpdate(){
@@ -130,7 +168,7 @@ public class MovementController : MonoBehaviour {
 			
 			rb.drag = breikingForce;
 		}
-		else
+		else if(!inObstacle)
 		{
 			FrenadoAudio.Stop();
 			rb.drag = 0;
@@ -182,6 +220,31 @@ public class MovementController : MonoBehaviour {
 			isGrounded = true;
 		}else{
 			isGrounded = false;
+		}
+	}
+
+	void OnTriggerStay(Collider other)
+	{
+		if(other.tag == "Obstacle")
+		{
+			if(!(other.GetComponent<Obstacle>().type == type))
+			{
+				inObstacle = true;
+				rb.drag = 10;
+			}else
+			{
+				inObstacle = false;
+				rb.drag = 0;
+			}
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if(other.tag == "Obstacle")
+		{
+			inObstacle = false;
+			rb.drag = 0;
 		}
 	}
 }
