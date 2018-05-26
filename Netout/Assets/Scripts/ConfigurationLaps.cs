@@ -12,6 +12,7 @@ public class ConfigurationLaps : MonoBehaviour {
     public Vector3 startPos;
     public int Lap;
     public int lapsToWin = 1;
+    public AudioSource FinishSound;
 
     void Start()
     {
@@ -36,6 +37,7 @@ public class ConfigurationLaps : MonoBehaviour {
         {
            GameObject WinPanel = GameObject.FindWithTag("MainCanvas").transform.GetChild(1).gameObject;
            WinPanel.SetActive(true);
+           FinishSound.Play();
         }
         checkpointA = checkPointArray;
         Debug.Log("Lap" + Lap);

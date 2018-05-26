@@ -30,6 +30,11 @@ public class MovementController : MonoBehaviour {
 	private Quaternion nextQuaternion;
 	private RaycastHit hit;
 
+	//Sound
+	public AudioSource AcelerationLoop;
+	public AudioSource FrenadoAudio;
+	public AudioSource AcelerationIntro;
+
 
 	// Use this for initialization
 	void Start () {
@@ -56,12 +61,19 @@ public class MovementController : MonoBehaviour {
 	void Inputs()
 	{
 		if(Input.GetMouseButtonDown(0))
+		{
 			isLClickPressed = true;
+			AcelerationLoop.Play();
+			AcelerationIntro.Play();
+		}
 		else if (Input.GetMouseButtonUp(0))
 			isLClickPressed = false;
 
 		if(Input.GetMouseButtonDown(1))
+		{
 			isRClickPressed = true;
+			FrenadoAudio.PlayOneShot(FrenadoAudio.clip);
+		}
 		else if (Input.GetMouseButtonUp(1))
 			isRClickPressed = false;
 
@@ -101,15 +113,28 @@ public class MovementController : MonoBehaviour {
 	void Acceleration()
 	{
 		if(isLClickPressed)
+		{
+			
 			rb.AddForce(transform.forward * speed, ForceMode.Force);
+		}else
+		{
+			AcelerationLoop.Stop();
+		}
+
 	}
 
 	void Breacking()
 	{
 		if(isRClickPressed)
+		{
+			
 			rb.drag = breikingForce;
+		}
 		else
+		{
+			FrenadoAudio.Stop();
 			rb.drag = 0;
+		}
 	}
 
 	void Rotation(float hr){

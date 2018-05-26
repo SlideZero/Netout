@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerPrefsController : MonoBehaviour {
 	
 	private string _colorSelected;
+	public AudioSource ButtonSound;
 	
 	void Awake()
 	{
@@ -14,6 +15,8 @@ public class PlayerPrefsController : MonoBehaviour {
 
 	public void ChangeColor(string _buttonColor)
 	{
+		ButtonSound.Stop();
+		ButtonSound.Play();
 		_colorSelected = _buttonColor;
 	}
 
@@ -24,6 +27,8 @@ public class PlayerPrefsController : MonoBehaviour {
 
 	public void loadScene(string _nextScene)
 	{
+		ButtonSound.Stop();
+		ButtonSound.Play();
 		SceneManager.LoadScene(_nextScene);
 	}
 }
