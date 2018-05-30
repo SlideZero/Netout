@@ -77,7 +77,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4603128549718060}
   - component: {fileID: 33286304723984402}
-  - component: {fileID: 135167642499815956}
   - component: {fileID: 23426075071693770}
   m_Layer: 0
   m_Name: TypeShield
@@ -874,18 +873,6 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &135167642499815956
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1312331975569026}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135720166695185284
 SphereCollider:
   m_ObjectHideFlags: 1
